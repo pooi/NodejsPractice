@@ -10,6 +10,40 @@ app.get('/', function(req, res) {
     res.send('Hello World!');
 });
 
+app.get('/topic', function(req, res) {
+    var topics = [
+        'Javascript is ...',
+        'Nodejs is ...',
+        'Express is ...'
+    ];
+    var output = `
+        <a href="/topic?id=0">JavaScript</a><br>
+        <a href="/topic?id=1">Nodejs</a><br>
+        <a href="/topic?id=2">Express</a><br><br>
+        ${topics[req.query.id]}
+    `;
+    res.send(output);
+});
+
+app.get('/topic2/:id', function(req, res) {
+    var topics = [
+        'Javascript is ...',
+        'Nodejs is ...',
+        'Express is ...'
+    ];
+    var output = `
+        <a href="/topic2/0">JavaScript</a><br>
+        <a href="/topic2/1">Nodejs</a><br>
+        <a href="/topic2/2">Express</a><br><br>
+        ${topics[req.params.id]}
+    `;
+    res.send(output);
+});
+
+app.get('/topic2/:id/:mode', function(req, res) {
+    res.send(req.params.id + ',' + req.params.mode);
+});
+
 app.get('/template', function(req, res) {
     res.render('temp', { time: Date(), _title: 'Pug' });
 });
