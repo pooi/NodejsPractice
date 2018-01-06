@@ -1,12 +1,14 @@
 var express = require('express');
 var session = require('express-session');
+var FileStore = require('session-file-store')(session);
 var bodyParser = require('body-parser');
 var app = express();
 
 app.use(session({
     secret: '123IH2@OH%K2k32j4@#LBK2b5k24n',
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
+    store: new FileStore()
 }));
 app.use(bodyParser.urlencoded({ extended: false }));
 

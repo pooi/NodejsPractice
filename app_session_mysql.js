@@ -1,12 +1,20 @@
 var express = require('express');
 var session = require('express-session');
+var MySQLStore = require('express-mysql-session')(session);
 var bodyParser = require('body-parser');
 var app = express();
 
 app.use(session({
     secret: '123IH2@OH%K2k32j4@#LBK2b5k24n',
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
+    store: new MySQLStore({
+        host: 'localhost',
+        port: 3306,
+        user: 'user',
+        password: '123456',
+        database: 'o2'
+    })
 }));
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -21,7 +29,9 @@ app.get('/count', function(req, res) {
 
 app.get('/auth/logout', function(req, res) {
     delete req.session.displayName;
-    res.redirect('/welcome');
+    req.session.save(function() {
+        res.redirect('/welcome');
+    });
 });
 
 app.get('/welcome', function(req, res) {
@@ -48,7 +58,9 @@ app.post('/auth/login', function(req, res) {
     var pwd = req.body.password;
     if (uname === user.username && pwd === user.password) {
         req.session.displayName = user.displayName;
-        res.redirect('/welcome');
+        req.session.save(function() {
+            res.redirect('/welcome');
+        });
     } else {
         res.send('Who are you? <a href="/auth/login">login</a>');
     }
