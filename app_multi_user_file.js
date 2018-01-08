@@ -2,7 +2,8 @@ var express = require('express');
 var session = require('express-session');
 var FileStore = require('session-file-store')(session);
 var bodyParser = require('body-parser');
-var sha256 = require('sha256');
+var bkfd2Password = require('pbkdf2-password');
+var hasher = bkfd2Password();
 var app = express();
 
 app.use(session({
@@ -41,22 +42,41 @@ app.get('/welcome', function(req, res) {
     }
 });
 
+var users = [{
+    username: 'egoing',
+    password: 'cqPimNz9A9vMsXgEq1SkcHw3FegIJvBncIek1fc4ZzLM71iUaC7A2YYjvlUsxXpnIOcqDyRKVnIt1ODe/Uc0ZgFiyLtNdvwNppVZelQ8iwWMAqLTmkLZgBBRbDM8YeP5UUKaIqsffwhIqqEmwpUSk3NlCbnwDYKEAskrhBOxc1w=',
+    salt: 'VwymOm1CpCqNjrOIsF/W/LhL51FjVztZhfszyuwkVHETJh7gEJJxFhVqKkRt5jXai/Tfwcx3+ZQmx2VhF3Wbtw==',
+    displayName: 'Egoing'
+}]
 var salt = '@$*&@*%@$ainwhibfanwaf234';
 app.post('/auth/login', function(req, res) {
     var user = {
         username: 'egoing',
-        password: 'c71044156a4c2fd75694b137eb645d70d4e29f571e43a67f9a201273be68f172',
-        salt: '!#(@$asfakwh249',
+        password: 'cqPimNz9A9vMsXgEq1SkcHw3FegIJvBncIek1fc4ZzLM71iUaC7A2YYjvlUsxXpnIOcqDyRKVnIt1ODe/Uc0ZgFiyLtNdvwNppVZelQ8iwWMAqLTmkLZgBBRbDM8YeP5UUKaIqsffwhIqqEmwpUSk3NlCbnwDYKEAskrhBOxc1w=',
+        salt: 'VwymOm1CpCqNjrOIsF/W/LhL51FjVztZhfszyuwkVHETJh7gEJJxFhVqKkRt5jXai/Tfwcx3+ZQmx2VhF3Wbtw==',
         displayName: 'Egoing'
     };
     var uname = req.body.username;
     var pwd = req.body.password;
-    if (uname === user.username && sha256(pwd + user.salt) === user.password) {
-        req.session.displayName = user.displayName;
-        res.redirect('/welcome');
-    } else {
-        res.send('Who are you? <a href="/auth/login">login</a>');
+    if (uname === user.username) {
+        return hasher({ password: pwd, salt: user.salt }, function(err, pass, salt, hash) {
+            if (hash === user.password) {
+                req.session.displayName = user.displayName;
+                req.session.save(function() {
+                    res.redirect('/welcome');
+                });
+            } else {
+                res.send('Who are you? <a href="/auth/login">login</a>');
+            }
+        });
     }
+    res.send('Who are you? <a href="/auth/login">login</a>');
+    // if (uname === user.username && sha256(pwd + user.salt) === user.password) {
+    //     req.session.displayName = user.displayName;
+    //     res.redirect('/welcome');
+    // } else {
+    //     res.send('Who are you? <a href="/auth/login">login</a>');
+    // }
 });
 
 app.get('/tmp', function(req, res) {
