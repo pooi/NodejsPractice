@@ -19,6 +19,10 @@ app.get('/topic/new', function(req, res) {
     });
 });
 
+app.get('/test', function(req, res) {
+    res.render('test');
+});
+
 app.get(['/topic', '/topic/:id'], function(req, res) {
     fs.readdir('data', function(err, files) {
         if (err) {

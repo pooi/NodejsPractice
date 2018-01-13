@@ -7,7 +7,7 @@ module.exports = function(passport) {
         '/login',
         passport.authenticate(
             'local', {
-                successRedirect: '/welcome',
+                successRedirect: '/topic',
                 failureRedirect: '/auth/login',
                 failureFlash: false
             }
@@ -23,7 +23,7 @@ module.exports = function(passport) {
         '/facebook/callback',
         passport.authenticate(
             'facebook', {
-                successRedirect: '/welcome',
+                successRedirect: '/topic',
                 failureRedirect: '/auth/login'
             }
         )
@@ -52,7 +52,7 @@ module.exports = function(passport) {
                 } else {
                     req.login(user, function(err) {
                         req.session.save(function() {
-                            res.redirect('/welcome');
+                            res.redirect('/topic');
                         });
                     });
                 }
@@ -68,7 +68,7 @@ module.exports = function(passport) {
     route.get('/logout', function(req, res) {
         req.logout();
         req.session.save(function() {
-            res.redirect('/welcome');
+            res.redirect('/topic');
         });
     });
     return route;
