@@ -13,7 +13,7 @@ var conn = mysql.createConnection({
 conn.connect();
 
 app.locals.pretty = true;
-app.set('views', './views');
+app.set('views', './views_temp');
 app.set('view engine', 'pug');
 app.use(bodyParser.urlencoded({ extended: false }))
 

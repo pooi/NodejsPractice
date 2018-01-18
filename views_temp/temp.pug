@@ -1,0 +1,66 @@
+extends ./layout
+block content
+
+    //- #myCarousel.carousel.slide(data-ride='carousel')
+    //- // Indicators
+    //- ol.carousel-indicators
+    //-     li.active(data-target='#myCarousel', data-slide-to='0')
+    //-     li(data-target='#myCarousel', data-slide-to='1')
+    //-     li(data-target='#myCarousel', data-slide-to='2')
+    //- // Wrapper for slides
+    //- .carousel-inner(role='listbox')
+    //-     .item.active
+    //-         img(src='http://korean.visitseoul.net/comm/getImage?srvcId=POST&parentSn=11597&fileTy=POSTTHUMB&fileNo=1&thumbTy=L', alt='New York', width='1200', height='700')
+    //-         //- .carousel-caption
+    //-         //-     h3 New York
+    //-         //-     p The atmosphere in New York is lorem ipsum.
+    //-     .item
+    //-         img(src='http://korean.visitseoul.net/comm/getImage?srvcId=POST&parentSn=11597&fileTy=POSTTHUMB&fileNo=1&thumbTy=L', alt='Chicago', width='1200', height='700')
+    //-         //- .carousel-caption
+    //-         //-     h3 Chicago
+    //-         //-     p Thank you, Chicago - A night we won't forget.
+    //-     .item
+    //-         img(src='http://korean.visitseoul.net/comm/getImage?srvcId=POST&parentSn=11597&fileTy=POSTTHUMB&fileNo=1&thumbTy=L', alt='Los Angeles', width='1200', height='700')
+    //-         //- .carousel-caption
+    //-         //-     h3 LA
+    //-         //-     p
+    //-         //-         | Even though the traffic was a mess, we had the best time playing at Venice Beach!
+    //- // Left and right controls
+    //- a.left.carousel-control(href='#myCarousel', role='button', data-slide='prev')
+    //-     span.glyphicon.glyphicon-chevron-left(aria-hidden='true')
+    //-     span.sr-only Previous
+    //- a.right.carousel-control(href='#myCarousel', role='button', data-slide='next')
+    //-     span.glyphicon.glyphicon-chevron-right(aria-hidden='true')
+    //-     span.sr-only Next
+
+    .container
+        h2 Attraction List
+        .row
+            each item in items
+                .card.col-sm-4(style="padding: 10px;")
+                    img.card-img-top(src=item.mainImage alt='Card image' style='width:100%')
+                    .card-body
+                        h4.card-title= item.title
+                        p.card-text= item.sContents
+                        a.btn.btn-primary(href='#') See Detail
+        br
+        //- form(action='/' method='post')
+        //-     input(type="hidden", name="page", value="0")
+        //-     input.btn.btn-success(type='submit', value="Home")
+        //- form(action='/' method='post')
+        //-     input(type="hidden", name="page", value=page+1)
+        //-     input.btn.btn-success(type='submit', value="Next")
+        
+        center
+            a.btn.btn-success(href="/" style="margin-right: 5px;") Home
+            - var n = 0;
+            while n<10
+                if page 
+                    if page == n
+                        a.btn.btn-primary(href="/"+n style="margin-right: 5px;")= n++
+                    else
+                        a.btn.btn-default(href="/"+n style="margin-right: 5px;")= n++
+                else
+                    a.btn.btn-default(href="/"+n style="margin-right: 5px;")= n++
+    
+
