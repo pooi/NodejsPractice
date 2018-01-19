@@ -52,15 +52,15 @@ block content
         //-     input.btn.btn-success(type='submit', value="Next")
         
         center
-            a.btn.btn-success(href="/" style="margin-right: 5px;") Home
+            a.btn.btn-success(href="/find" style="margin-right: 5px;") Home
             - var n = 0;
             while n<10
                 if page 
                     if page == n
-                        a.btn.btn-primary(href="/"+n style="margin-right: 5px;")= n++
+                        a.btn.btn-primary(href="/find/"+n style="margin-right: 5px;")= n++
                     else
-                        a.btn.btn-default(href="/"+n style="margin-right: 5px;")= n++
+                        a.btn.btn-default(href="/find/"+n style="margin-right: 5px;")= n++
                 else
-                    a.btn.btn-default(href="/"+n style="margin-right: 5px;")= n++
+                    a.btn.btn-default(href="/find/"+n style="margin-right: 5px;")= n++
     
 
